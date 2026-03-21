@@ -7,7 +7,7 @@ A custom [Umbrel Community App Store](https://github.com/getumbrel/umbrel) by Cr
 ## Apps
 
 ### lgtm-stack
-Full Grafana observability stack — Loki, Grafana, Tempo, Mimir + Alloy log collector.
+Full Grafana observability stack — Loki, Grafana, Tempo, Mimir + Alloy log collector. Grafana uses **PostgreSQL** as its database (replaces the default SQLite).
 
 - **Grafana UI**: port `3010`  
 - **OTLP gRPC**: port `4317`    

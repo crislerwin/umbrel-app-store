@@ -1,8 +1,9 @@
-# Local override – stubs out Umbrel's app_proxy for docker compose testing outside Umbrel OS.
+# Local-only override — stubs out Umbrel's app_proxy so docker compose
+# works outside the Umbrel OS. Not needed on actual Umbrel.
 services:
   app_proxy:
-    image: traefik:v2.10
-    command: ["--help"]
+    image: busybox
+    command: ["true"]
     environment:
       APP_HOST: lgtm-stack_lgtm_1
       APP_PORT: 3000
