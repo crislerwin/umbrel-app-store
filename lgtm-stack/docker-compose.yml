@@ -14,6 +14,7 @@ services:
       POSTGRES_DB: grafana
       POSTGRES_USER: grafana
       POSTGRES_PASSWORD: grafana
+      POSTGRES_HOST_AUTH_METHOD: trust
     volumes:
       - ${APP_DATA_DIR}/data/postgres:/var/lib/postgresql/data
     restart: always
