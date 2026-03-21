@@ -31,7 +31,10 @@ submitter: crislerwintler
 submission: https://github.com/crislerwintler/umbrel-lgtm
 repo: https://github.com/grafana/docker-otel-lgtm
 support: https://community.grafana.com
-gallery: []
+gallery:
+  - https://i.imgur.com/yyVG0Jb.jpeg
+  - https://i.imgur.com/yyVG0Jb.jpeg
+  - https://i.imgur.com/yyVG0Jb.jpeg
 releaseNotes: >-
   Initial release of the LGTM Stack Umbrel app.
 dependencies: []
