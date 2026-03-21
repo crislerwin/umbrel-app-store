@@ -5,21 +5,48 @@ services:
       APP_HOST: lgtm-stack_lgtm_1
       APP_PORT: 3000
 
-  # --- Service 1: The Backend (Loki, Grafana, Tempo, Mimir) ---
+  # --- Service 1: PostgreSQL (Grafana database) ---
+  postgres:
+    image: postgres:16-alpine
+    container_name: lgtm-postgres
+    environment:
+      POSTGRES_DB: grafana
+      POSTGRES_USER: grafana
+      POSTGRES_PASSWORD: grafana
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U grafana -d grafana"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # --- Service 2: The Backend (Loki, Grafana, Tempo, Mimir) ---
   lgtm:
     image: grafana/otel-lgtm:latest
     container_name: lgtm
     environment:
       - ENABLE_LOGS_GRAFANA=true
+      # PostgreSQL database for Grafana (replaces default SQLite)
+      - GF_DATABASE_TYPE=postgres
+      - GF_DATABASE_HOST=postgres:5432
+      - GF_DATABASE_NAME=grafana
+      - GF_DATABASE_USER=grafana
+      - GF_DATABASE_PASSWORD=grafana
+      - GF_DATABASE_SSL_MODE=disable
     ports:
       - "3010:3000"   # Grafana UI
       - "4317:4317"   # OTLP gRPC Receiver
       - "4318:4318"   # OTLP HTTP Receiver
     volumes:
       - lgtm-data:/data
+    depends_on:
+      postgres:
+        condition: service_healthy
     restart: always
 
-  # --- Service 2: The Collector (Scrapes Docker) ---
+  # --- Service 3: The Collector (Scrapes Docker) ---
   alloy:
     image: grafana/alloy:latest
     container_name: alloy-collector
@@ -36,3 +63,4 @@ services:
 
 volumes:
   lgtm-data:
+  postgres-data:

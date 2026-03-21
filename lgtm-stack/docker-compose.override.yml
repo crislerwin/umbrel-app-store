@@ -1,9 +1,8 @@
-# Local override – strips the Umbrel-injected app_proxy so docker compose works
-# outside the Umbrel OS. The real docker-compose.yml stays untouched.
+# Local override – stubs out Umbrel's app_proxy for docker compose testing outside Umbrel OS.
 services:
   app_proxy:
     image: traefik:v2.10
-    command: ["--help"]        # no-op; Umbrel replaces this at runtime
+    command: ["--help"]
     environment:
       APP_HOST: lgtm-stack_lgtm_1
       APP_PORT: 3000
