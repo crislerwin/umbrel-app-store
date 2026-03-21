@@ -2,7 +2,7 @@ services:
 
   app_proxy:
     environment:
-      APP_HOST: lgtm-stack_lgtm_1
+      APP_HOST: crisler-lgtm-stack_lgtm_1
       APP_PORT: 3000
 
   # --- Service 1: PostgreSQL (Grafana database) ---
