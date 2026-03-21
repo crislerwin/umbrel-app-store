@@ -48,13 +48,45 @@ services:
   # --- Service 3: The Collector (Scrapes Docker) ---
   alloy:
     image: grafana/alloy:latest
-    command: ["run", "--server.http.listen-addr=0.0.0.0:12345", "/etc/alloy/config.alloy"]
+    environment:
+      ALLOY_CONFIG: |
+        discovery.docker "host" {
+          host = "unix:///var/run/docker.sock"
+        }
+        discovery.relabel "host_containers" {
+          targets = discovery.docker.host.targets
+          rule {
+            source_labels = ["__meta_docker_container_name"]
+            target_label  = "container"
+          }
+          rule {
+            source_labels = ["__meta_docker_container_image"]
+            target_label  = "image"
+          }
+          rule {
+            target_label = "source"
+            replacement  = "host-docker"
+          }
+        }
+        loki.source.docker "host" {
+          host       = "unix:///var/run/docker.sock"
+          targets    = discovery.relabel.host_containers.output
+          forward_to = [loki.write.lgtm.receiver]
+        }
+        loki.write "lgtm" {
+          endpoint {
+            url = "http://lgtm:3100/loki/api/v1/push"
+          }
+        }
+    entrypoint:
+      - /bin/sh
+      - -c
+      - |
+        echo "$$ALLOY_CONFIG" > /tmp/config.alloy
+        /bin/alloy run --server.http.listen-addr=0.0.0.0:12345 /tmp/config.alloy
     volumes:
-      - ./config.alloy:/etc/alloy/config.alloy
       # Host Docker socket (required)
       - /var/run/docker.sock:/var/run/docker.sock:ro
-      # Komodo DinD socket — uncomment on Umbrel if Komodo is installed:
-      # - /home/umbrel/umbrel/app-data/komodo/data/docker/docker.sock:/var/run/komodo/docker.sock:ro
     depends_on:
       - lgtm
     restart: always
