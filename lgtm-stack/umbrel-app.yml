@@ -1,5 +1,5 @@
 manifestVersion: 1
-id: crisler-lgtm-stack
+id: lgtm-stack
 name: LGTM Stack
 tagline: Full Grafana observability stack — logs, traces, and metrics
 icon: https://raw.githubusercontent.com/grafana/grafana/main/public/img/grafana_icon.svg
