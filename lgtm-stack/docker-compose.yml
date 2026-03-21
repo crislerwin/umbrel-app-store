@@ -1,0 +1,38 @@
+services:
+
+  app_proxy:
+    environment:
+      APP_HOST: lgtm-stack_lgtm_1
+      APP_PORT: 3000
+
+  # --- Service 1: The Backend (Loki, Grafana, Tempo, Mimir) ---
+  lgtm:
+    image: grafana/otel-lgtm:latest
+    container_name: lgtm
+    environment:
+      - ENABLE_LOGS_GRAFANA=true
+    ports:
+      - "3010:3000"   # Grafana UI
+      - "4317:4317"   # OTLP gRPC Receiver
+      - "4318:4318"   # OTLP HTTP Receiver
+    volumes:
+      - lgtm-data:/data
+    restart: always
+
+  # --- Service 2: The Collector (Scrapes Docker) ---
+  alloy:
+    image: grafana/alloy:latest
+    container_name: alloy-collector
+    command: ["run", "--server.http.listen-addr=0.0.0.0:12345", "/etc/alloy/config.alloy"]
+    volumes:
+      - ./config.alloy:/etc/alloy/config.alloy
+      # Host Docker socket (required)
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      # Komodo DinD socket — uncomment on Umbrel if Komodo is installed:
+      # - /home/umbrel/umbrel/app-data/komodo/data/docker/docker.sock:/var/run/komodo/docker.sock:ro
+    depends_on:
+      - lgtm
+    restart: always
+
+volumes:
+  lgtm-data:
