@@ -8,8 +8,10 @@ services:
 
   loki:
     image: grafana/loki:latest
+    user: "0:0"
     volumes:
-      - ${APP_DATA_DIR}/data/loki:/loki
+      - ${APP_DATA_DIR}/data/loki:/tmp/loki
+      - ${APP_DATA_DIR}/config/loki-config.yaml:/etc/loki/local-config.yaml
     command: -config.file=/etc/loki/local-config.yaml
     restart: always
 
