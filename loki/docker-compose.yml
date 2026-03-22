@@ -8,8 +8,9 @@ services:
 
   loki:
     image: grafana/loki:latest
-    ports:
-      - "3100:3100"
+    # Don't expose port directly - let app_proxy handle it
+    # ports:
+    #   - "3100:3100"
     volumes:
       - ${APP_DATA_DIR}/data/loki:/loki
       - ${APP_DATA_DIR}/data/loki-config:/etc/loki
