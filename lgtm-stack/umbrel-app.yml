@@ -5,7 +5,7 @@ tagline: Full Grafana observability stack — logs, traces, and metrics
 icon: https://raw.githubusercontent.com/grafana/grafana/main/public/img/grafana_icon.svg
 category: Monitoring
 version: "1.0.0"
-port: 3001
+port: 3000
 description: >-
   LGTM Stack bundles the complete Grafana observability suite into a single
   Umbrel app:
