@@ -6,5 +6,5 @@ services:
     image: busybox
     command: ["true"]
     environment:
-      APP_HOST: loki
+      APP_HOST: lgtm-loki
       APP_PORT: 3101
