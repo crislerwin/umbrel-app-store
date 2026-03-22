@@ -11,13 +11,9 @@ description: >-
   containers on your Umbrel host. Perfect for simple log aggregation
   without the full LGTM stack overhead.
 
-
   - **Loki** — Log storage and querying on port 3100
   - **Grafana Alloy** — Lightweight collector that scrapes Docker logs
   - **Auto-discovery** — Automatically finds and tails logs from all containers
-
-
-  Access Loki API at http://umbrel.local:3100
 
 developer: Grafana Labs
 website: https://grafana.com/docs/loki/
@@ -29,7 +25,3 @@ gallery:
   - https://i.imgur.com/yyVG0Jb.jpeg
 releaseNotes: >-
   Initial release of standalone Loki Docker log scraper.
-dependencies: []
-path: ""
-defaultUsername: ""
-defaultPassword: ""
