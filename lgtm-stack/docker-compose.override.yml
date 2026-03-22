@@ -6,5 +6,5 @@ services:
     image: busybox
     command: ["true"]
     environment:
-      APP_HOST: lgtm-stack_lgtm_1
+      APP_HOST: lgtm
       APP_PORT: 3000
