@@ -1,0 +1,35 @@
+manifestVersion: 1
+id: crisler-loki
+name: Loki Docker Logs
+tagline: Lightweight log aggregation for Docker containers
+icon: https://raw.githubusercontent.com/grafana/loki/main/docs/sources/logo.png
+category: Monitoring
+version: "1.0.0"
+port: 3100
+description: >-
+  A minimal Loki setup that automatically scrapes logs from all Docker
+  containers on your Umbrel host. Perfect for simple log aggregation
+  without the full LGTM stack overhead.
+
+
+  - **Loki** — Log storage and querying on port 3100
+  - **Grafana Alloy** — Lightweight collector that scrapes Docker logs
+  - **Auto-discovery** — Automatically finds and tails logs from all containers
+
+
+  Access Loki API at http://umbrel.local:3100
+
+developer: Grafana Labs
+website: https://grafana.com/docs/loki/
+submitter: crislerwintler
+submission: https://github.com/crislerwin/umbrel-app-store
+repo: https://github.com/grafana/loki
+support: https://community.grafana.com
+gallery:
+  - https://i.imgur.com/yyVG0Jb.jpeg
+releaseNotes: >-
+  Initial release of standalone Loki Docker log scraper.
+dependencies: []
+path: ""
+defaultUsername: ""
+defaultPassword: ""

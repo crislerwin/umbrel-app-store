@@ -1,0 +1,10 @@
+# Local-only override — stubs out Umbrel's app_proxy so docker compose
+# works outside the Umbrel OS. Not needed on actual Umbrel.
+version: "3.7"
+services:
+  app_proxy:
+    image: busybox
+    command: ["true"]
+    environment:
+      APP_HOST: loki
+      APP_PORT: 3101
