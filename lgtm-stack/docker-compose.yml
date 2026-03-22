@@ -7,15 +7,15 @@ services:
       APP_HOST: lgtm
       APP_PORT: 3000
 
-
   # --- Service 2: The Backend (Loki, Grafana, Tempo, Mimir) ---
   lgtm:
     image: grafana/otel-lgtm:latest
     environment:
       - ENABLE_LOGS_GRAFANA=true
     ports:
-      - "4317:4317"   # OTLP gRPC Receiver
-      - "4318:4318"   # OTLP HTTP Receiver
+      - "4317:4317" # OTLP gRPC Receiver
+      - "4318:4318" # OTLP HTTP Receiver
+      - "3000:3000" # Grafana UI
     volumes:
       - ${APP_DATA_DIR}/data/lgtm:/data
     restart: always
@@ -65,4 +65,3 @@ services:
     depends_on:
       - lgtm
     restart: always
-
