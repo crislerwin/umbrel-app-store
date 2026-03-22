@@ -3,14 +3,13 @@ version: "3.7"
 services:
   app_proxy:
     environment:
-      APP_HOST: lgtm-loki
+      APP_HOST: loki
       APP_PORT: 3100
 
-  lgtm-loki:
+  loki:
     image: grafana/loki:latest
     volumes:
       - ${APP_DATA_DIR}/data/loki:/loki
-      - ${APP_DATA_DIR}/data/loki-config:/etc/loki
     command: -config.file=/etc/loki/local-config.yaml
     restart: always
 
@@ -39,11 +38,11 @@ services:
         loki.source.docker "host" {
           host       = "unix:///var/run/docker.sock"
           targets    = discovery.relabel.host_containers.output
-          forward_to = [loki.write.lgtm-loki.receiver]
+          forward_to = [loki.write.loki.receiver]
         }
-        loki.write "lgtm-loki" {
+        loki.write "loki" {
           endpoint {
-            url = "http://lgtm-loki:3100/loki/api/v1/push"
+            url = "http://loki:3100/loki/api/v1/push"
           }
         }
     entrypoint:
@@ -55,5 +54,5 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     depends_on:
-      - lgtm-loki
+      - loki
     restart: always
