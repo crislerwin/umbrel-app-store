@@ -2,4 +2,4 @@ id: "lgtm"
 name: "Crisler"
 apps:
   - lgtm-stack
-  - loki
+  - lgtm-loki

@@ -1,5 +1,5 @@
 manifestVersion: 1
-id: loki
+id: lgtm-loki
 name: Loki Docker Logs
 tagline: Lightweight log aggregation for Docker containers
 icon: https://raw.githubusercontent.com/grafana/loki/main/docs/sources/logo_and_name.png
