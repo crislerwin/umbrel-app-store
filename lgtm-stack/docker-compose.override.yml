@@ -7,4 +7,4 @@ services:
     command: ["true"]
     environment:
       APP_HOST: lgtm
-      APP_PORT: 3000
+      APP_PORT: 3001
