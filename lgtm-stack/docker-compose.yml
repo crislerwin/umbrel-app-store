@@ -37,7 +37,7 @@ services:
       # Host Docker socket
       - /var/run/docker.sock:/var/run/docker.sock:ro
       # Komodo DinD Docker socket
-      - /home/umbrel/umbrel/app-data/komodo/data/docker/docker.sock:/komodo-docker/docker.sock:ro
+      # - /home/umbrel/umbrel/app-data/komodo/data/docker/docker.sock:/komodo-docker/docker.sock:ro
     depends_on:
       - lgtm
     restart: always
