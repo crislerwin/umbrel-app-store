@@ -4,7 +4,7 @@ name: LGTM Stack
 tagline: Full Grafana observability stack — logs, traces, and metrics
 icon: https://raw.githubusercontent.com/grafana/grafana/main/public/img/grafana_icon.svg
 category: Monitoring
-version: "1.0.4"
+version: "1.0.3"
 port: 3000
 description: >-
   LGTM Stack bundles the complete Grafana observability suite into a single
@@ -32,11 +32,10 @@ submission: https://github.com/crislerwintler/umbrel-lgtm
 repo: https://github.com/grafana/docker-otel-lgtm
 support: https://community.grafana.com
 gallery:
-  - https://i.imgur.com/yyVG0Jb.jpeg
-  - https://i.imgur.com/yyVG0Jb.jpeg
-  - https://i.imgur.com/yyVG0Jb.jpeg
+  - https://raw.githubusercontent.com/crislerwintler/umbrel-lgtm/master/lgtm-stack/images/lgtm_1.png
+  - https://raw.githubusercontent.com/crislerwintler/umbrel-lgtm/master/lgtm-stack/images/lgtm_2.png
+  - https://raw.githubusercontent.com/crislerwintler/umbrel-lgtm/master/lgtm-stack/images/lgtm_3.png
 releaseNotes: >-
-  v1.0.4: Extracted Alloy configuration to a separate file.
   v1.0.3: Disabled anonymous access in Grafana. Authentication now required.
   v1.0.2: Added support for scraping logs from Komodo DinD containers.
 dependencies: []
