@@ -15,8 +15,8 @@ services:
       - GF_AUTH_ANONYMOUS_ENABLED=false
       - GF_AUTH_BASIC_ENABLED=true
       - GF_AUTH_DISABLE_LOGIN_FORM=false
-      - GF_SECURITY_ADMIN_USER=${APP_USERNAME:-admin}
-      - GF_SECURITY_ADMIN_PASSWORD=${APP_PASSWORD:-admin}
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
     ports:
       - "4317:4317" # OTLP gRPC Receiver
       - "4318:4318" # OTLP HTTP Receiver
