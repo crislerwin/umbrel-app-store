@@ -4,7 +4,7 @@ services:
 
   app_proxy:
     environment:
-      APP_HOST: lgtm
+      APP_HOST: lgtm-stack_lgtm_1
       APP_PORT: 3000
 
   # --- Service 2: The Backend (Loki, Grafana, Tempo, Mimir) ---
