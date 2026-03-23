@@ -20,7 +20,7 @@ Full Grafana observability stack — Loki, Grafana, Tempo, Mimir + Alloy log col
 ## Adding this store to Umbrel
 
 1. In umbrelOS, go to **App Store → Community App Stores**
-2. Paste your GitHub repository URL (e.g. `https://github.com/crislerwintler/umbrel-lgtm`)
+2. Paste your GitHub repository URL (e.g. `https://github.com/crislerwintler/umbrel-app-store`)
 3. Install **LGTM Stack** from the store
 
 ---

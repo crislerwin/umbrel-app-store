@@ -28,13 +28,13 @@ description: >-
 developer: Grafana Labs
 website: https://grafana.com
 submitter: crislerwintler
-submission: https://github.com/crislerwintler/umbrel-lgtm
+submission: https://github.com/crislerwintler/umbrel-app-store
 repo: https://github.com/grafana/docker-otel-lgtm
 support: https://community.grafana.com
 gallery:
-  - https://raw.githubusercontent.com/crislerwintler/umbrel-lgtm/master/lgtm-stack/images/lgtm_1.png
-  - https://raw.githubusercontent.com/crislerwintler/umbrel-lgtm/master/lgtm-stack/images/lgtm_2.png
-  - https://raw.githubusercontent.com/crislerwintler/umbrel-lgtm/master/lgtm-stack/images/lgtm_3.png
+  - https://raw.githubusercontent.com/crislerwintler/umbrel-app-store/master/lgtm-stack/images/lgtm_1.png
+  - https://raw.githubusercontent.com/crislerwintler/umbrel-app-store/master/lgtm-stack/images/lgtm_2.png
+  - https://raw.githubusercontent.com/crislerwintler/umbrel-app-store/master/lgtm-stack/images/lgtm_3.png
 releaseNotes: >-
   v1.0.3: Disabled anonymous access in Grafana. Authentication now required.
   v1.0.2: Added support for scraping logs from Komodo DinD containers.
