@@ -28,71 +28,12 @@ services:
   alloy:
     image: grafana/alloy:latest
     user: "0:0"
-    environment:
-      ALLOY_CONFIG: |
-        // --- Host Docker Socket ---
-        discovery.docker "host" {
-          host = "unix:///var/run/docker.sock"
-        }
-        discovery.relabel "host_containers" {
-          targets = discovery.docker.host.targets
-          rule {
-            source_labels = ["__meta_docker_container_name"]
-            target_label  = "container"
-          }
-          rule {
-            source_labels = ["__meta_docker_container_image"]
-            target_label  = "image"
-          }
-          rule {
-            target_label = "source"
-            replacement  = "host-docker"
-          }
-        }
-        loki.source.docker "host" {
-          host       = "unix:///var/run/docker.sock"
-          targets    = discovery.relabel.host_containers.output
-          forward_to = [loki.write.lgtm.receiver]
-        }
-
-        // --- Komodo DinD Docker Socket ---
-        discovery.docker "komodo" {
-          host = "unix:///komodo-docker/docker.sock"
-        }
-        discovery.relabel "komodo_containers" {
-          targets = discovery.docker.komodo.targets
-          rule {
-            source_labels = ["__meta_docker_container_name"]
-            target_label  = "container"
-          }
-          rule {
-            source_labels = ["__meta_docker_container_image"]
-            target_label  = "image"
-          }
-          rule {
-            target_label = "source"
-            replacement  = "komodo-dind"
-          }
-        }
-        loki.source.docker "komodo" {
-          host       = "unix:///komodo-docker/docker.sock"
-          targets    = discovery.relabel.komodo_containers.output
-          forward_to = [loki.write.lgtm.receiver]
-        }
-
-        // --- Write to Loki ---
-        loki.write "lgtm" {
-          endpoint {
-            url = "http://lgtm:3100/loki/api/v1/push"
-          }
-        }
-    entrypoint:
-      - /bin/sh
-      - -c
-      - |
-        echo "$$ALLOY_CONFIG" > /tmp/config.alloy
-        /bin/alloy run --server.http.listen-addr=0.0.0.0:12345 /tmp/config.alloy
+    command:
+      - run
+      - --server.http.listen-addr=0.0.0.0:12345
+      - /etc/alloy/config.alloy
     volumes:
+      - $PWD/alloy.config:/etc/alloy/config.alloy:ro
       # Host Docker socket
       - /var/run/docker.sock:/var/run/docker.sock:ro
       # Komodo DinD Docker socket
