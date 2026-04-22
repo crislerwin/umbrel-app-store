@@ -17,11 +17,13 @@ services:
       - GF_AUTH_DISABLE_LOGIN_FORM=false
       - GF_SECURITY_ADMIN_USER=admin
       - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_INSTALL_PLUGINS=yesoreyeram-infinity-datasource
     ports:
       - "4317:4317" # OTLP gRPC Receiver
       - "4318:4318" # OTLP HTTP Receiver
     volumes:
       - ${APP_DATA_DIR}/data/lgtm:/data
+      - ${APP_DATA_DIR}/data/grafana-plugins:/var/lib/grafana/plugins
     restart: always
 
   # --- Service 3: The Collector (Scrapes Docker) ---
