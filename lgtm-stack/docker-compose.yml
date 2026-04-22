@@ -5,6 +5,8 @@ services:
     environment:
       APP_HOST: lgtm-stack_lgtm_1
       APP_PORT: 3000
+    networks:
+      - umbrel_main_network
 
   # --- Service 2: The Backend (Loki, Grafana, Tempo, Mimir) ---
   lgtm:
@@ -24,6 +26,12 @@ services:
     volumes:
       - ${APP_DATA_DIR}/data/lgtm:/data
       - ${APP_DATA_DIR}/data/grafana-plugins:/var/lib/grafana/plugins
+    networks:
+      - umbrel_main_network
+      - external_network
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
     restart: always
 
   # --- Service 3: The Collector (Scrapes Docker) ---
@@ -38,8 +46,6 @@ services:
     volumes:
       # Host Docker socket
       - /var/run/docker.sock:/var/run/docker.sock:ro
-      # Komodo DinD Docker socket
-      # - /home/umbrel/umbrel/app-data/komodo/data/docker/docker.sock:/komodo-docker/docker.sock:ro
     environment:
       ALLOY_CONFIG: |
         // --- Host Docker Socket ---
@@ -67,37 +73,21 @@ services:
           forward_to = [loki.write.lgtm.receiver]
         }
         
-        // --- Komodo DinD Docker Socket ---
-        // discovery.docker "komodo" {
-        //   host = "unix:///komodo-docker/docker.sock"
-        // }
-        // discovery.relabel "komodo_containers" {
-        //   targets = discovery.docker.komodo.targets
-        //   rule {
-        //     source_labels = ["__meta_docker_container_name"]
-        //     target_label  = "container"
-        //   }
-        //   rule {
-        //     source_labels = ["__meta_docker_container_image"]
-        //     target_label  = "image"
-        //   }
-        //   rule {
-        //     target_label = "source"
-        //     replacement  = "komodo-dind"
-        //   }
-        // }
-        // loki.source.docker "komodo" {
-        //   host       = "unix:///komodo-docker/docker.sock"
-        //   targets    = discovery.relabel.komodo_containers.output
-        //   forward_to = [loki.write.lgtm.receiver]
-        // }
-        
         // --- Write to Loki ---
         loki.write "lgtm" {
           endpoint {
             url = "http://lgtm:3100/loki/api/v1/push"
           }
         }
+    networks:
+      - umbrel_main_network
+      - external_network
     depends_on:
       - lgtm
     restart: always
+
+networks:
+  umbrel_main_network:
+    external: true
+  external_network:
+    driver: bridge
