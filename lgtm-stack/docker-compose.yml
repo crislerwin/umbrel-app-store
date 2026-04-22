@@ -5,10 +5,8 @@ services:
     environment:
       APP_HOST: lgtm-stack_lgtm_1
       APP_PORT: 3000
-    networks:
-      - umbrel_main_network
+    network_mode: host
 
-  # --- Service 2: The Backend (Loki, Grafana, Tempo, Mimir) ---
   lgtm:
     image: grafana/otel-lgtm:latest
     environment:
@@ -21,20 +19,15 @@ services:
       - GF_SECURITY_ADMIN_PASSWORD=admin
       - GF_INSTALL_PLUGINS=yesoreyeram-infinity-datasource
     ports:
-      - "4317:4317" # OTLP gRPC Receiver
-      - "4318:4318" # OTLP HTTP Receiver
+      - "4317:4317"
+      - "4318:4318"
+      - "3010:3000"
     volumes:
       - ${APP_DATA_DIR}/data/lgtm:/data
       - ${APP_DATA_DIR}/data/grafana-plugins:/var/lib/grafana/plugins
-    networks:
-      - umbrel_main_network
-      - external_network
-    dns:
-      - 8.8.8.8
-      - 8.8.4.4
+    network_mode: host
     restart: always
 
-  # --- Service 3: The Collector (Scrapes Docker) ---
   alloy:
     image: grafana/alloy:latest
     user: "0:0"
@@ -44,11 +37,9 @@ services:
         echo "$$ALLOY_CONFIG" > /tmp/config.alloy
         exec alloy run --server.http.listen-addr=0.0.0.0:12345 /tmp/config.alloy
     volumes:
-      # Host Docker socket
       - /var/run/docker.sock:/var/run/docker.sock:ro
     environment:
       ALLOY_CONFIG: |
-        // --- Host Docker Socket ---
         discovery.docker "host" {
           host = "unix:///var/run/docker.sock"
         }
@@ -72,22 +63,10 @@ services:
           targets    = discovery.relabel.host_containers.output
           forward_to = [loki.write.lgtm.receiver]
         }
-        
-        // --- Write to Loki ---
         loki.write "lgtm" {
           endpoint {
-            url = "http://lgtm:3100/loki/api/v1/push"
+            url = "http://localhost:3100/loki/api/v1/push"
           }
         }
-    networks:
-      - umbrel_main_network
-      - external_network
-    depends_on:
-      - lgtm
+    network_mode: host
     restart: always
-
-networks:
-  umbrel_main_network:
-    external: true
-  external_network:
-    driver: bridge
