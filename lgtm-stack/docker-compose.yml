@@ -3,7 +3,7 @@ version: "3.7"
 services:
   app_proxy:
     environment:
-      APP_HOST: lgtm-stack_lgtm_1
+      APP_HOST: localhost
       APP_PORT: 3000
     network_mode: host
 
